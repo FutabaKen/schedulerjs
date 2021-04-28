@@ -1,3 +1,21 @@
+/* global Hogan */
+var schedulerjsTemplates = (function() {
+  
+var t = {
+  /* jshint ignore:start */
+  'layout' : new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"sjs-wrapper\">\r");t.b("\n" + i);t.b("    <div class=\"sjs-name-col\">\r");t.b("\n" + i);t.b("        <div class=\"sjs-name-head\">");t.b(t.v(t.f("head-name",c,p,0)));t.b("</div>\r");t.b("\n" + i);if(t.s(t.f("names",c,p,1),c,p,0,133,193,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("            <div class=\"sjs-name\">");t.b(t.v(t.f("name",c,p,0)));t.b("</div>\r");t.b("\n" + i);});c.pop();}t.b("    </div>\r");t.b("\n" + i);t.b("    <div class=\"sjs-app-col\">\r");t.b("\n" + i);t.b("        <div class=\"sjs-grid\">\r");t.b("\n" + i);t.b("            <div class=\"sjs-grid-row-head\">\r");t.b("\n" + i);if(t.s(t.f("grid-cols-head",c,p,1),c,p,0,360,520,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("                    <div class=\"sjs-grid-col-head\" style=\"width:");t.b(t.v(t.f("width",c,p,0)));t.b("px;\">\r");t.b("\n" + i);t.b("                        ");t.b(t.v(t.f("time",c,p,0)));t.b("\r");t.b("\n" + i);t.b("                    </div>\r");t.b("\n" + i);});c.pop();}t.b("            </div>\r");t.b("\n" + i);if(t.s(t.f("grid-rows",c,p,1),c,p,0,587,826,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("                <div class=\"sjs-grid-row\">\r");t.b("\n" + i);if(t.s(t.f("grid-cols",c,p,1),c,p,0,667,774,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("                        <div class=\"sjs-grid-col\" style=\"width:");t.b(t.v(t.f("width",c,p,0)));t.b("px;\"></div>\r");t.b("\n" + i);});c.pop();}t.b("                </div>\r");t.b("\n" + i);});c.pop();}t.b("        </div>\r");t.b("\n" + i);t.b("        <div class=\"sjs-grid-overlay\">\r");t.b("\n" + i);t.b("            <div class=\"sjs-grid-overlay-row-head\"></div>\r");t.b("\n" + i);if(t.s(t.f("grid-overlay-rows",c,p,1),c,p,0,991,1608,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("                <div class=\"sjs-grid-overlay-row\">\r");t.b("\n" + i);if(t.s(t.f("grid-overlay-cols",c,p,1),c,p,0,1087,1548,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("                        <div class=\"sjs-grid-overlay-col ");t.b(t.v(t.f("class",c,p,0)));t.b("\" style=\"width:");t.b(t.v(t.f("width",c,p,0)));t.b("px;margin-left:");t.b(t.v(t.f("margin",c,p,0)));t.b("px;\" title=\"");t.b(t.v(t.f("title",c,p,0)));t.b(" ");t.b(t.v(t.f("start",c,p,0)));t.b("-");t.b(t.v(t.f("end",c,p,0)));t.b("\" data-payload-id=\"");t.b(t.v(t.f("payloadId",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("                            <span class=\"sjs-grid-overlay-col-title\">");t.b(t.v(t.f("title",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("                            <br />\r");t.b("\n" + i);t.b("                            <span class=\"sjs-grid-overlay-col-time\">");t.b(t.v(t.f("start",c,p,0)));t.b("-");t.b(t.v(t.f("end",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("                        </div>\r");t.b("\n" + i);});c.pop();}t.b("                </div>\r");t.b("\n" + i);});c.pop();}t.b("        </div>\r");t.b("\n" + i);t.b("        <div class=\"sjs-fill-height\"></div>\r");t.b("\n" + i);t.b("        <div class=\"sjs-selector\">\r");t.b("\n" + i);t.b("            <div class=\"sjs-selector-edge sjs-selector-left\"></div>\r");t.b("\n" + i);t.b("            <div class=\"sjs-selector-edge sjs-selector-right\"></div>\r");t.b("\n" + i);t.b("            <div class=\"sjs-selector-inner\">\r");t.b("\n" + i);t.b("                <div class=\"sjs-selector-text\">Start</div>\r");t.b("\n" + i);t.b("            </div>\r");t.b("\n" + i);t.b("        </div>\r");t.b("\n" + i);t.b("    </div>\r");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }})
+  /* jshint ignore:end */
+},
+r = function(n) {
+  var tn = t[n];
+  return function(c, p, i) {
+    return tn.render(c, p || t, i);
+  };
+};
+return {
+  'layout' : r('layout')
+};
+})();
 ;(function($, window, document, undefined){
     function Scheduler(element, options){
         this.element = element;
@@ -250,12 +268,26 @@
     };
     Scheduler.prototype.timeStrToMinutes = function(str){
         var split = str.split(':');
-        return parseInt(split[0]) * 60 + parseInt(split[1]);
+        var hour = Number(split[0]);
+        if(hour >= 18){
+            hour -= 18;
+        }else{
+            hour += 6;
+        }
+        return parseInt(hour) * 60 + parseInt(split[1]);
     };
     Scheduler.prototype.minutesToTimeStr = function(minutes){
         var hours = Math.floor(minutes/60);
         var minutesInHour = minutes - hours*60;
         var str = '';
+
+        // 追加処理.begin
+        if(hours < 6){
+            hours += 18;
+        }else{
+            hours -= 6;
+        }
+        // 追加処理.end
 
         if(hours < 10){
             str = '0' + String(hours);

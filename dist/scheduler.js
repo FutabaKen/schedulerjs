@@ -268,12 +268,26 @@ return {
     };
     Scheduler.prototype.timeStrToMinutes = function(str){
         var split = str.split(':');
-        return parseInt(split[0]) * 60 + parseInt(split[1]);
+        var hour = Number(split[0]);
+        if(hour >= 18){
+            hour -= 18;
+        }else{
+            hour += 6;
+        }
+        return parseInt(hour) * 60 + parseInt(split[1]);
     };
     Scheduler.prototype.minutesToTimeStr = function(minutes){
         var hours = Math.floor(minutes/60);
         var minutesInHour = minutes - hours*60;
         var str = '';
+
+        // 追加処理.begin
+        if(hours < 6){
+            hours += 18;
+        }else{
+            hours -= 6;
+        }
+        // 追加処理.end
 
         if(hours < 10){
             str = '0' + String(hours);
